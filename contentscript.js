@@ -5,22 +5,29 @@ chrome.runtime.onMessage.addListener(
     //            "from the extension");
     //if (request.greeting == "hello")
     //  sendResponse({farewell: "goodbye"});
-      //getImageUrl();
+      getImageUrl();
       getTitleUrl();
   });
 
-function sendMsg(content, isover){
-    chrome.runtime.sendMessage({msg: content, over: isover}, function(response) {
+function sendMsg(content, isover, mtype){
+    chrome.runtime.sendMessage({msg: content, over: isover, type: mtype}, function(response) {
 });
 }
 
 function getImageUrl(){
+  var imgUrls= [];
     //图片链接
   $("img[id^=aimg_]").each(function(index){
-      console.log($(this).attr("src"));
+    imgUrls.push($(this).attr("src"))
   });
     //文章内容
-    console.log($("td.t_msgfont").text());
+  var text = $("td.t_msgfont").text();
+  var tid= $("span[id=post_reply] a").attr("href");
+  var msg={}
+  msg.imgUrls= imgUrls;
+  msg.content= text;
+  msg.tid= tid;
+  sendMsg(msg, 0, "image");
 }
 
 function getTitleUrl(){
@@ -41,6 +48,11 @@ function getTitleUrl(){
         uids.push($(this).attr("href"));
         authors.push($(this).text());
     });
+
+  if(tids.length <= 0 || titles.length <=0 ){
+    return;
+  }
+
     msg={};
     msg.urls=urls;
     msg.titles=titles;
@@ -57,9 +69,9 @@ function getTitleUrl(){
       //跳到下一页
       $("a.next")[0].click();
       //将结果发给eventPage处理
-      sendMsg(msg, 0);
+      sendMsg(msg, 0, "title");
     } else {
       //alert("over:1");
-      sendMsg(msg, 1);
+      sendMsg(msg, 1, "title");
     }
 }

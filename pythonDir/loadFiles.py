@@ -16,7 +16,23 @@ def readFile():
             with open(join(target, f)) as fh:
                 lines = fh.readlines();
                 storeRec(lines)
+        if -1 != f.find("91img"):
+            with open(join(target, f)) as fh:
+                lines = fh.readlines();
+                storeImg(lines)
 
+def storeImg(img):
+    global cur;
+    for e in img:
+        record= e.split(";;");
+        number= re.compile("\d+")
+        try:
+            tid= number.search(record[0]).group();
+            text= record[1];
+            imgUrls= record[2:]
+            pass
+        except Exception, err:
+            print err;
 
 def storeRec(recArray):
     global cur
@@ -31,8 +47,6 @@ def storeRec(recArray):
             conn.commit()
         except Exception, err:
             print(err)
-
-
 
 STMT= "insert into 91porn(subject_id, url, subject_name, author_id, author_name) values({0},'{1}','{2}',{3},'{4}');"
 conn = MySQLdb.connect(

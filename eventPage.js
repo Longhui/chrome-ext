@@ -85,8 +85,7 @@ function doSave(value, type, name) {
   }
 }
 
-chrome.runtime.onMessage.addListener(
-function (request, sender, sendResponse) {
+function handleTitle(request){
   if (0 == start) {
 	return;
   }
@@ -129,4 +128,29 @@ function (request, sender, sendResponse) {
 	},
 	3000);
   }
+}
+
+function handleImage(request){
+  var msg= request.msg;
+  var imgContent= "";
+  imgContent += msg.tid + " ;; ";
+  imgContent += msg.content + " ;; ";
+  var len = msg.imgUrls.length;
+
+  for (var i= 0; i < len; i++){
+	imgContent += msg.imgUrls[i] + " ;; ";
+  }
+  imgContent += "\n";
+  doSave(imgContent, "text/latex", "91img.txt");
+}
+
+chrome.runtime.onMessage.addListener(
+function (request, sender, sendResponse) {
+  if(request.type == "title"){
+	handleTitle(request);
+  } else if(request.type == "image"){
+	start= 0;
+	handleImage(request);
+  }
+
 });
