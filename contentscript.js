@@ -23,11 +23,13 @@ function getImageUrl(){
     //文章内容
   var text = $("td.t_msgfont").text();
   var tid= $("span[id=post_reply] a").attr("href");
-  var msg={}
-  msg.imgUrls= imgUrls;
-  msg.content= text;
-  msg.tid= tid;
-  sendMsg(msg, 0, "image");
+  if (imgUrls.length > 0) {
+    var msg = {}
+    msg.imgUrls = imgUrls;
+    msg.content = text;
+    msg.tid = tid;
+    sendMsg(msg, 0, "image");
+  }
 }
 
 function getTitleUrl(){

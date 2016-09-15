@@ -23,16 +23,17 @@ def readFile():
 
 def storeImg(img):
     global cur;
-    for e in img:
-        record= e.split(";;");
-        number= re.compile("\d+")
-        try:
-            tid= number.search(record[0]).group();
-            text= record[1];
-            imgUrls= record[2:]
-            pass
-        except Exception, err:
-            print err;
+    record = ''.join(img).split(";;");
+    number= re.compile("\d+")
+    try:
+        tid= number.findall(record[0])[1];
+        text= record[1];
+        imgUrls= record[2:]
+        sql=STMT2.format(tid, text, ";".join(imgUrls))
+        cur.execute(sql)
+        conn.commit()
+    except Exception, err:
+        print err;
 
 def storeRec(recArray):
     global cur
@@ -49,6 +50,7 @@ def storeRec(recArray):
             print(err)
 
 STMT= "insert into 91porn(subject_id, url, subject_name, author_id, author_name) values({0},'{1}','{2}',{3},'{4}');"
+STMT2="insert into 91img(tid, content, urls) values({0}, '{1}', '{2}');"
 conn = MySQLdb.connect(
     host='127.0.0.1',
     port=3306,

@@ -6,7 +6,7 @@ var uids = new Array();
 var hrefs = new Array();
 var tids = new Array();
 var num = 0;
-var max = 50;
+var max = 30;
 var contentStr = "";
 
 function init() {
