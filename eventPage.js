@@ -45,13 +45,14 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 //});
 //
 //chrome.extension.onMessage.addListener(function(tab){});
-//chrome.webNavigation.onCompleted.addListener(function(tab){
-//  alert("1111111111111------------");
-//});
+chrome.webNavigation.onCompleted.addListener(function(tab){
+  //alert("1111111111111------------");
+  sendMsg(tab.id, "image");
+});
 
 function sendMsg(tabid, msg) {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-	chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function (response) {
+	chrome.tabs.sendMessage(tabs[0].id, {message: msg}, function (response) {
 	});
   });
 }

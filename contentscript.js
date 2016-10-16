@@ -5,7 +5,10 @@ chrome.runtime.onMessage.addListener(
     //            "from the extension");
     //if (request.greeting == "hello")
     //  sendResponse({farewell: "goodbye"});
+    if(request.message == "image")
       getImageUrl();
+
+    if(request.message == "msg")
       getTitleUrl();
   });
 
