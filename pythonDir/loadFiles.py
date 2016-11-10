@@ -9,7 +9,7 @@ def listFile(path):
 
 
 def readFile():
-    target = "/Users/raolonghui/Downloads"
+    target = "/root/Downloads"
     files = listFile(target)
     for f in files:
         if -1 != f.find("91porn"):
@@ -55,7 +55,7 @@ conn = MySQLdb.connect(
     host='127.0.0.1',
     port=3306,
     user='root',
-    passwd='admin1234',
+    passwd='rlh850123',
     db='website',
     charset='utf8'
 )
